@@ -1,5 +1,6 @@
 
 module HTTP;
+redef signature_files += "hoic.sig";
 
 export {
 	redef enum Notice::Type += {
@@ -29,20 +30,11 @@ event bro_init()
 	                     $break_interval=1mins]);
 }
 
-event tcp_packet(c: connection, is_orig: bool, flags: string, seq: count, ack: 
-count, len: count, payload: string){
+event signature_match(state: signature_state, msg: string, data: string){
 
-## We have to look at the TCP payload directly because one of the key
-## HOIC signatures is an extra space in the headers which is normally
-## obscured by Bro's parsing prior to the http_header event.
-
-    if(is_orig && (c$id$resp_p in HTTP::ports)){
-	if(("HTTP/1.0" in payload) && ("Host:" in payload)){
- 	    if(":  " in payload){
-	    	   print fmt("HOIC ATTACK");
-  		    Metrics::add_data(HOIC_ATTACK, [$host=c$id$orig_h], 1);
-		    Metrics::add_data(HOIC_VICTIM, [$host=c$id$resp_h], 1);
-	    }	    
-        }
-    }
+       if (/^ddos-hoic/ in state$sig_id){
+              local c = state$conn;
+  	      Metrics::add_data(HOIC_ATTACK, [$host=c$id$orig_h], 1);
+  	      Metrics::add_data(HOIC_VICTIM, [$host=c$id$resp_h], 1);
+       }
 }
