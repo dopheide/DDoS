@@ -1,0 +1,444 @@
+Binary files hping3-20051105/byteorder and hping3-20051105.dop/byteorder differ
+diff -Nur hping3-20051105/bytesex.h hping3-20051105.dop/bytesex.h
+--- hping3-20051105/bytesex.h	2003-08-31 17:23:48.000000000 +0000
++++ hping3-20051105.dop/bytesex.h	2011-07-01 18:49:09.254414416 +0000
+@@ -8,6 +8,7 @@
+ #define ARS_BYTESEX_H
+ 
+ #if 	defined(__i386__) \
++	|| defined(__x86_64__) \
+ 	|| defined(__alpha__) \
+ 	|| (defined(__mips__) && (defined(MIPSEL) || defined (__MIPSEL__)))
+ #define BYTE_ORDER_LITTLE_ENDIAN
+diff -Nur hping3-20051105/.depend hping3-20051105.dop/.depend
+--- hping3-20051105/.depend	2005-11-05 10:31:42.000000000 +0000
++++ hping3-20051105.dop/.depend	2011-07-08 17:34:23.471340162 +0000
+@@ -1,7 +1,7 @@
+ adbuf.o: adbuf.c adbuf.h
+ antigetopt.o: antigetopt.c antigetopt.h
+-apd.o: apd.c ars.h systype.h in.h bytesex.h adbuf.h fixtypes.h \
+- hstring.h hex.h
++apd.o: apd.c ars.h systype.h in.h bytesex.h adbuf.h fixtypes.h hstring.h \
++ hex.h
+ apdutils.o: apdutils.c
+ ars.o: ars.c ars.h systype.h in.h bytesex.h adbuf.h fixtypes.h
+ arsglue.o: arsglue.c ars.h systype.h in.h bytesex.h adbuf.h fixtypes.h
+@@ -18,8 +18,8 @@
+  fixtypes.h hcmp.h globals.h
+ gentables.o: gentables.c sbignum.h fixtypes.h
+ gethostname.o: gethostname.c
+-getifname.o: getifname.c hping2.h byteorder.h systype.h fixtypes.h \
+- hcmp.h globals.h
++getifname.o: getifname.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
++ globals.h
+ getlhs.o: getlhs.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+ getusec.o: getusec.c
+@@ -28,8 +28,8 @@
+ if_promisc.o: if_promisc.c hping2.h byteorder.h systype.h fixtypes.h \
+  hcmp.h globals.h
+ interface.o: interface.c
+-ip_opt_build.o: ip_opt_build.c hping2.h byteorder.h systype.h \
+- fixtypes.h hcmp.h globals.h
++ip_opt_build.o: ip_opt_build.c hping2.h byteorder.h systype.h fixtypes.h \
++ hcmp.h globals.h
+ libpcap_stuff.o: libpcap_stuff.c hping2.h byteorder.h systype.h \
+  fixtypes.h hcmp.h globals.h
+ listen.o: listen.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+@@ -37,11 +37,11 @@
+ logicmp.o: logicmp.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+ main.o: main.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h
+-memlock.o: memlock.c
+ memlockall.o: memlockall.c
++memlock.o: memlock.c
+ memstr.o: memstr.c
+-memunlock.o: memunlock.c
+ memunlockall.o: memunlockall.c
++memunlock.o: memunlock.c
+ opensockraw.o: opensockraw.c
+ parseoptions.o: parseoptions.c antigetopt.h hping2.h byteorder.h \
+  systype.h fixtypes.h hcmp.h globals.h
+@@ -50,26 +50,25 @@
+ relid.o: relid.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+ resolve.o: resolve.c
+-rtt.o: rtt.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+- globals.h
+-sbignum-tables.o: sbignum-tables.c sbignum-tables.h sbignum.h \
+- fixtypes.h
++rtt.o: rtt.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h globals.h
+ sbignum.o: sbignum.c sbignum.h fixtypes.h sbignum-tables.h
+-scan.o: scan.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+- globals.h hstring.h
++sbignum-tables.o: sbignum-tables.c sbignum-tables.h sbignum.h fixtypes.h
++scan.o: scan.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h globals.h \
++ hstring.h
+ script.o: script.c
+-send.o: send.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
++send.o: send.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h globals.h
++sendfull.o: sendfull.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
++ globals.h
++sendhcmp.o: sendhcmp.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
++ globals.h
++sendicmp.o: sendicmp.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+-sendhcmp.o: sendhcmp.c hping2.h byteorder.h systype.h fixtypes.h \
+- hcmp.h globals.h
+-sendicmp.o: sendicmp.c hping2.h byteorder.h systype.h fixtypes.h \
+- hcmp.h globals.h
+ sendip.o: sendip.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+ sendip_handler.o: sendip_handler.c hping2.h byteorder.h systype.h \
+  fixtypes.h hcmp.h globals.h
+-sendrawip.o: sendrawip.c hping2.h byteorder.h systype.h fixtypes.h \
+- hcmp.h globals.h
++sendrawip.o: sendrawip.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
++ globals.h
+ sendtcp.o: sendtcp.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+  globals.h
+ sendudp.o: sendudp.c hping2.h byteorder.h systype.h fixtypes.h hcmp.h \
+@@ -81,7 +80,7 @@
+  hcmp.h globals.h
+ strlcpy.o: strlcpy.c
+ usage.o: usage.c
+-version.o: version.c release.h hping2.h byteorder.h systype.h \
+- fixtypes.h hcmp.h
++version.o: version.c release.h hping2.h byteorder.h systype.h fixtypes.h \
++ hcmp.h
+ waitpacket.o: waitpacket.c hping2.h byteorder.h systype.h fixtypes.h \
+  hcmp.h globals.h
+diff -Nur hping3-20051105/globals.h hping3-20051105.dop/globals.h
+--- hping3-20051105/globals.h	2004-06-18 09:53:11.000000000 +0000
++++ hping3-20051105.dop/globals.h	2011-07-08 15:55:04.871007277 +0000
+@@ -86,6 +86,7 @@
+ 		opt_ssrr,
+ 		opt_beep,
+ 		opt_flood,
++                opt_fullflood,
+ 		tcp_exitcode,
+ 		src_ttl,
+ 		src_id,
+@@ -110,7 +111,8 @@
+ 		opt_force_icmp,
+ 		icmp_ip_protocol,
+ 		icmp_cksum,
+-		raw_ip_protocol;
++                raw_ip_protocol,
++                maxholdopen;
+ 
+ extern unsigned char 	lsr[255],
+ 			ssr[255];
+diff -Nur hping3-20051105/hping2.h hping3-20051105.dop/hping2.h
+--- hping3-20051105/hping2.h	2004-06-04 07:22:38.000000000 +0000
++++ hping3-20051105.dop/hping2.h	2011-07-08 15:55:44.191953274 +0000
+@@ -126,6 +126,7 @@
+ #define DEFAULT_ICMP_IP_PROTOCOL	6 /* TCP */
+ #define DEFAULT_RAW_IP_PROTOCOL		6 /* TCP */
+ #define DEFAULT_TRACEROUTE_TTL		1
++#define DEFAULT_HOLDOPEN                10 /* 10 seconds */
+ 
+ #define BIND_NONE	0		/* no bind */
+ #define BIND_DPORT	1		/* bind destination port */
+@@ -366,6 +367,7 @@
+ int	open_sockpacket_ifindex(int ifindex);
+ int	close_sockpacket(int);			/* close SOCK_PACKET socket */
+ int	open_sockraw(void);			/* open raw socket */
++void    send_full(void);                        /* Open full TCP connection */
+ void	send_packet (int signal_id);
+ void	send_rawip (void);
+ void	send_tcp(void);
+diff -Nur hping3-20051105/hping.full22.out hping3-20051105.dop/hping.full22.out
+--- hping3-20051105/hping.full22.out	1970-01-01 00:00:00.000000000 +0000
++++ hping3-20051105.dop/hping.full22.out	2011-07-08 17:35:11.912189702 +0000
+@@ -0,0 +1,12 @@
++HPING 127.0.0.1 (lo 127.0.0.1): NO FLAGS are set, 40 headers + 0 data bytes
++hping in full connect flood mode, no replies.
++6927: INFO Hold open success.
++6926: INFO Hold open success.
++6928: INFO Hold open success.
++6925: INFO Hold open success.
++6931: INFO Hold open success.
++6933: INFO Hold open success.
++6937: INFO Hold open success.
++6938: INFO Hold open success.
++6932: INFO Hold open success.
++6939: INFO Hold open success.
+diff -Nur hping3-20051105/main.c hping3-20051105.dop/main.c
+--- hping3-20051105/main.c	2004-06-18 09:53:11.000000000 +0000
++++ hping3-20051105.dop/main.c	2011-07-08 17:34:13.895184085 +0000
+@@ -105,6 +105,7 @@
+ 	opt_cplt_rte    = FALSE,
+ 	opt_beep	= FALSE,
+ 	opt_flood	= FALSE,
++        opt_fullflood    = FALSE,
+ 	tcp_exitcode	= 0,
+ 	src_ttl		= DEFAULT_TTL,
+ 	src_id		= -1, /* random */
+@@ -129,7 +130,8 @@
+ 	icmp_ip_dstport	= DEFAULT_DPORT,
+ 	opt_force_icmp  = FALSE,
+ 	icmp_cksum	= DEFAULT_ICMP_CKSUM,
+-	raw_ip_protocol	= DEFAULT_RAW_IP_PROTOCOL;
++        raw_ip_protocol	= DEFAULT_RAW_IP_PROTOCOL,
++        maxholdopen     = DEFAULT_HOLDOPEN;
+ 
+ char
+ 	datafilename	[1024],
+@@ -341,6 +343,15 @@
+ 		hdr_size = IPHDR_SIZE + TCPHDR_SIZE;
+ 	}
+ 	
++	if(opt_fullflood)
++	  fprintf(stderr,"HPING %s (%s %s): %s set, %d headers + %d data bytes\n",
++		targetname,
++		ifname,
++		targetstraddr,
++		setflags,
++		hdr_size,
++		data_size);
++	else
+ 	printf("HPING %s (%s %s): %s set, %d headers + %d data bytes\n",
+ 		targetname,
+ 		ifname,
+@@ -364,12 +375,19 @@
+ 	kill(getpid(), SIGALRM);
+ 
+ 	/* flood mode? */
+-	if (opt_flood) {
+-		fprintf(stderr,
++	if (opt_flood){
++	  fprintf(stderr,
+ 			"hping in flood mode, no replies will be shown\n");
+ 		while (1) {
+ 			send_packet(0);
+ 		}
++	}else if(opt_fullflood){
++	  /* DOP */
++	  fprintf(stderr,"hping in full connect flood mode, no replies.\n");
++	  /* the interval timer that has already started (from kill) will call all the connections */
++	  while(1){
++	  }
++
+ 	}
+ 
+ 	/* main loop */
+diff -Nur hping3-20051105/Makefile hping3-20051105.dop/Makefile
+--- hping3-20051105/Makefile	2005-11-05 10:31:41.000000000 +0000
++++ hping3-20051105.dop/Makefile	2011-07-08 17:34:22.783328142 +0000
+@@ -9,7 +9,7 @@
+ CC= gcc
+ AR=/usr/bin/ar
+ RANLIB=/usr/bin/ranlib
+-CCOPT= -O2 -Wall  -I/usr/include/tcl8.4 -DUSE_TCL
++CCOPT= -O2 -Wall   
+ DEBUG= -g
+ #uncomment the following if you need libpcap based build under linux
+ #(not raccomanded)
+@@ -25,7 +25,7 @@
+ 	binding.o getusec.o opensockraw.o \
+ 	logicmp.o waitpacket.o resolve.o \
+ 	sendip.o sendicmp.o sendudp.o \
+-	sendtcp.o cksum.o statistics.o \
++	sendtcp.o cksum.o statistics.o sendfull.o\
+ 	usage.o version.o antigetopt.o \
+ 	sockopt.o listen.o \
+ 	sendhcmp.o memstr.o rtt.o \
+@@ -50,14 +50,14 @@
+ 	$(RANLIB) $@
+ 
+ hping3: byteorder.h $(OBJ)
+-	$(CC) -o hping3 $(CCOPT) $(DEBUG) $(OBJ) -L/usr/local/lib $(PCAP)  -ltcl8.4 -lm -lpthread
++	$(CC) -o hping3 $(CCOPT) $(DEBUG) $(OBJ) -L/usr/local/lib $(PCAP)  
+ 	@echo
+ 	./hping3 -v
+ 	@echo "use \`make strip' to strip hping3 binary"
+ 	@echo "use \`make install' to install hping3"
+ 
+ hping3-static: byteorder.h $(OBJ)
+-	$(CC) -static -o hping3-static $(CCOPT) $(DEBUG) $(OBJ) -L/usr/local/lib $(PCAP)  -ltcl8.4 -lm -lpthread -ldl
++	$(CC) -static -o hping3-static $(CCOPT) $(DEBUG) $(OBJ) -L/usr/local/lib $(PCAP)   -ldl
+ 
+ byteorder.h:
+ 	./configure
+diff -Nur hping3-20051105/Makefile.in hping3-20051105.dop/Makefile.in
+--- hping3-20051105/Makefile.in	2004-04-09 23:38:56.000000000 +0000
++++ hping3-20051105.dop/Makefile.in	2011-07-06 16:32:55.682862065 +0000
+@@ -25,7 +25,7 @@
+ 	binding.o getusec.o opensockraw.o \
+ 	logicmp.o waitpacket.o resolve.o \
+ 	sendip.o sendicmp.o sendudp.o \
+-	sendtcp.o cksum.o statistics.o \
++	sendtcp.o cksum.o statistics.o sendfull.o\
+ 	usage.o version.o antigetopt.o \
+ 	sockopt.o listen.o \
+ 	sendhcmp.o memstr.o rtt.o \
+diff -Nur hping3-20051105/parseoptions.c hping3-20051105.dop/parseoptions.c
+--- hping3-20051105/parseoptions.c	2004-06-18 09:53:11.000000000 +0000
++++ hping3-20051105.dop/parseoptions.c	2011-07-08 16:33:56.709206550 +0000
+@@ -35,7 +35,7 @@
+ 	OPT_RAND_DEST, OPT_RAND_SOURCE, OPT_LSRR, OPT_SSRR, OPT_ROUTE_HELP,
+ 	OPT_ICMP_IPSRC, OPT_ICMP_IPDST, OPT_ICMP_SRCPORT, OPT_ICMP_DSTPORT,
+ 	OPT_ICMP_GW, OPT_FORCE_ICMP, OPT_APD_SEND, OPT_SCAN, OPT_FASTER,
+-	OPT_BEEP, OPT_FLOOD };
++	OPT_BEEP, OPT_FLOOD, OPT_FULLFLOOD };
+ 
+ static struct ago_optlist hping_optlist[] = {
+ 	{ 'c',	"count",	OPT_COUNT,		AGO_NEEDARG },
+@@ -124,6 +124,7 @@
+ 	{ '\0', "force-icmp",	OPT_FORCE_ICMP,		AGO_NOARG },
+ 	{ '\0', "beep",		OPT_BEEP,		AGO_NOARG },
+ 	{ '\0', "flood",	OPT_FLOOD,		AGO_NOARG },
++	{ '\0', "fullflood",	OPT_FULLFLOOD,		AGO_NEEDARG },
+ 	AGO_LIST_TERM
+ };
+ 
+@@ -552,6 +553,10 @@
+ 		case OPT_FLOOD:
+ 			opt_flood = TRUE;
+ 			break;
++		case OPT_FULLFLOOD:
++		        maxholdopen = strtol(ago_optarg, NULL, 0);
++		        opt_fullflood = TRUE;
++			break;
+ 		}
+ 	}
+ 
+@@ -627,6 +632,9 @@
+ 		printf("Option error: you need to specify an interface "
+ 			"when the --rand-dest option is enabled\n");
+ 		exit(1);
++	}else if (maxholdopen <= 0){
++	  printf("Option error: Argument to --full-flood must be a positive number.\n");
++	  exit(1);
+ 	}
+ 
+ 	/* dependences */
+diff -Nur hping3-20051105/send.c hping3-20051105.dop/send.c
+--- hping3-20051105/send.c	2003-08-31 17:23:53.000000000 +0000
++++ hping3-20051105.dop/send.c	2011-07-08 17:17:28.183283332 +0000
+@@ -73,22 +73,30 @@
+ 	if (opt_rand_source)
+ 		select_next_random_source();
+ 
+-	if (opt_rawipmode)	send_rawip();
++	/* DOP */
++	if (opt_fullflood)      send_full();
++	else if (opt_rawipmode)	send_rawip();
+ 	else if (opt_icmpmode)	send_icmp();
+ 	else if (opt_udpmode)	send_udp();
+ 	else			send_tcp();
+ 
+ 	sent_pkt++;
+-	Signal(SIGALRM, send_packet);
+ 
+ 	if (count != -1 && count == sent_pkt) { /* count reached? */
+-		Signal(SIGALRM, print_statistics);
+-		alarm(COUNTREACHED_TIMEOUT);
++
++	  if(opt_fullflood)
++	    Signal(SIGALRM, exit);
++	  else
++	    Signal(SIGALRM, print_statistics);
++
++	  alarm(COUNTREACHED_TIMEOUT);
++	  
+ 	} else if (!opt_listenmode) {
+ 		if (opt_waitinusec == FALSE)
+ 			alarm(sending_wait);
+ 		else
+ 			setitimer(ITIMER_REAL, &usec_delay, NULL);
+ 	}
++
+ 	errno = errno_save;
+ }
+diff -Nur hping3-20051105/sendfull.c hping3-20051105.dop/sendfull.c
+--- hping3-20051105/sendfull.c	1970-01-01 00:00:00.000000000 +0000
++++ hping3-20051105.dop/sendfull.c	2011-07-08 16:47:51.786000951 +0000
+@@ -0,0 +1,85 @@
++/* 
++ * $smu-mark$ 
++ * $name: sendtcp.c$ 
++ * $author: Salvatore Sanfilippo <antirez@invece.org>$ 
++ * $copyright: Copyright (C) 1999 by Salvatore Sanfilippo$ 
++ * $license: This software is under GPL version 2 of license$ 
++ * $date: Fri Nov  5 11:55:49 MET 1999$ 
++ * $rev: 8$ 
++ */ 
++
++/* sendfull.c - Michael Dopheide */
++
++#include <stdio.h>
++#include <string.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <signal.h>
++
++#include "hping2.h"
++#include "globals.h"
++
++#include <poll.h>
++#include <sys/types.h>
++#include <sys/socket.h>
++#include <netinet/in.h>
++
++void send_full(void)
++{
++  int sockfd, childpid, mypid, delay=0,timeout_msecs=1000;
++  int holdopen=maxholdopen*(1000/timeout_msecs);
++  char buffer[256];
++  struct pollfd fds[1];
++
++  remote.sin_port = htons(dst_port);
++  remote.sin_family = AF_INET;
++
++  /* fork off, open full connection, and hold it for awhile */
++  if ((childpid = fork()) == -1) {
++    perror("fork");
++    exit(1);
++  }  
++
++  if (childpid) { /* parent */
++	  /* do nothing? */
++  } else {        /* child */
++
++    mypid = (int) getpid();
++    sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
++    
++    if (sockfd < 0){
++      fprintf(stderr,"%i: ERROR opening socket\n",mypid);
++      exit(0);  
++    }
++    if (connect(sockfd,(const struct sockaddr *)&remote,sizeof(remote)) < 0){
++      fprintf(stderr,"%i: ERROR connecting\n",mypid);
++      exit(0);
++    }  
++
++    fds[0].fd = sockfd;
++    fds[0].events = POLLRDNORM | POLLHUP;
++
++    while(1){
++
++      if(poll(fds, 1, timeout_msecs) > 0){
++	if (fds[0].revents & POLLRDNORM) {
++	  recv(sockfd,buffer,strlen(buffer),0);  /* just read it, do nothing */
++	  sleep(1);
++	} else if (fds[0].revents & POLLHUP){
++
++	  /* So the big question is will I see this if the remote side sends an RST */
++	  fprintf(stderr,"%i: INFO Connection closed by remote host?\n",mypid);
++	  exit(0);
++	}
++      }
++
++      delay++;
++
++      if(delay >= holdopen){
++	close(sockfd);
++	fprintf(stderr,"%i: INFO Hold open success.\n",mypid,delay,holdopen);
++	exit(0);
++      }
++    }
++  }
++}
+
